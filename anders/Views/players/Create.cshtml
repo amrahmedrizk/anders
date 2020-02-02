@@ -1,0 +1,103 @@
+﻿@model IEnumerable<anders.Models.players>
+
+
+
+
+    <table id="table" class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.score)
+            </th>
+            <th></th>
+        </tr>
+    
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.score)
+                </td>
+
+            </tr>
+        }
+
+    </table>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        <input type="text" placeholder="name" name="s" id="target" />
+        <input type="text" placeholder="score" name="ss" id="tar" />
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" id="btn" onclick="myFunction()" value="add" class="btn btn-default" />
+
+            </div>
+        </div>
+    }
+        <p id="demo"></p>
+
+
+
+
+
+
+
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/bootstrap")
+
+        @Scripts.Render("~/bundles/jqueryval")
+        <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
+
+        <script>
+            var player = {
+                name: "",
+                score: 0
+            };
+
+            function myFunction() {
+
+
+                var s = document.getElementById("target").value;
+                var ss = document.getElementById("tar").value;
+
+
+
+           
+                player.name = s;
+                player.score = ss;
+
+
+
+
+
+                var table = document.getElementById("tabl");
+
+
+                var url = "/players/Create/";
+
+                $.ajax({
+                    url: url,
+                    data: { "player": {name:player.name,score:player.score} },
+                    cache: false,
+                    type: "POST",
+                    dataType: 'json',
+                    success:window.location.reload(true)
+
+                       
+                   
+                });
+               
+                
+            }
+           
+
+
+        </script>
